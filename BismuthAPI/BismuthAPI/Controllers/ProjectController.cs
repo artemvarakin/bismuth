@@ -15,14 +15,54 @@ public sealed class ProjectController : ControllerBase {
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Project>>> GetProjectsAsync() {
-        var projects = await _projectRepository.GetProjectsAsync();
+    public async Task<ActionResult<IEnumerable<Project>>> GetProjectsAsync(CancellationToken token) 
+    {
+        var projects = await _projectRepository.GetProjectsAsync(token);
         return Ok(projects);
     }
 
     [HttpPost]
-    public async Task<ActionResult<IEnumerable<Project>>> AddProjectAsync(Project project) {
-        var projects = await _projectRepository.AddProjectAsync(project);
+    public async Task<ActionResult<IEnumerable<Project>>> AddProjectAsync(Project project, CancellationToken token) 
+    {
+        var projects = await _projectRepository.AddProjectAsync(project, token);
         return Ok(projects);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Project>> GetProjectAsync(int id, CancellationToken token) 
+    {
+        var project = await _projectRepository.GetProjectAsync(id, token);
+
+        if (project is null) {
+            return NotFound("Project not found.");
+        }
+
+        return Ok(project);
+    }
+
+    [HttpPut]
+    public async Task<ActionResult<Project>> UpdateProjectAsync(Project project, CancellationToken token) 
+    {
+        var targetProject = await _projectRepository.GetProjectAsync(project.Id, token);
+        
+        if (targetProject is null) {
+            return NotFound("Project not found.");
+        }
+
+        var updatedProject = await _projectRepository.UpdateProjectAsync(project, token);
+        return Ok(updatedProject);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteProjectAsync(int id, CancellationToken token) 
+    {
+        var targetProject = await _projectRepository.GetProjectAsync(id, token);
+        
+        if (targetProject is null) {
+            return NotFound("Project not found.");
+        }
+
+        var availableProjects = await _projectRepository.DeleteProjectAsync(targetProject, token);
+        return Ok(availableProjects);
     }
 }
