@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BismuthAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220726181659_initial")]
-    partial class initial
+    [Migration("20220817204202_projects")]
+    partial class projects
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

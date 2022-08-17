@@ -4,7 +4,7 @@
 
 namespace BismuthAPI.Migrations
 {
-    public partial class initial : Migration
+    public partial class projects : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
