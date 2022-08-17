@@ -29,7 +29,7 @@ public sealed class ProjectRepository : BaseDbRepository, IProjectRepository {
     {
         DbContext.Projects.Update(project);
         await DbContext.SaveChangesAsync(token);
-        
+
         return await GetProjectAsync(project.Id, token);
     }
 
