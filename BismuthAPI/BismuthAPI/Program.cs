@@ -9,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("BismuthDb")));
 
-    builder.Services.AddTransient<IProjectRepository, ProjectRepository>();
+    builder.Services
+        .AddTransient<IProjectRepository, ProjectRepository>()
+        .AddTransient<IIssueRepository, IssueRepository>();
 
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
