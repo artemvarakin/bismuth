@@ -1,5 +1,4 @@
 using BismuthAPI.Data.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BismuthAPI.Abstractions;
 
@@ -7,9 +6,9 @@ namespace BismuthAPI.Abstractions;
 public interface IProjectRepository {
     Task<IEnumerable<Project>> GetProjectsAsync(CancellationToken token);
 
-    Task<IEnumerable<Project>> AddProjectAsync(Project project, CancellationToken token);
-
     Task<Project?> GetProjectAsync(int id, CancellationToken token);
+
+    Task<IEnumerable<Project>> AddProjectAsync(Project project, CancellationToken token);
 
     Task<Project?> UpdateProjectAsync(Project project, CancellationToken token);
 

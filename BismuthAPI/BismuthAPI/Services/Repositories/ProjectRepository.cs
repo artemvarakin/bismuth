@@ -12,6 +12,10 @@ public sealed class ProjectRepository : BaseDbRepository, IProjectRepository {
         => await DbContext.Projects.ToListAsync(token);
 
     /// <inheritdoc />
+    public async Task<Project?> GetProjectAsync(int id, CancellationToken token)
+        => await DbContext.Projects.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, token);
+
+    /// <inheritdoc />
     public async Task<IEnumerable<Project>> AddProjectAsync(Project project, CancellationToken token)
     {
         DbContext.Projects.Add(project);
@@ -19,10 +23,6 @@ public sealed class ProjectRepository : BaseDbRepository, IProjectRepository {
 
         return await GetProjectsAsync(token);
     }
-
-    /// <inheritdoc />
-    public async Task<Project?> GetProjectAsync(int id, CancellationToken token)
-        => await DbContext.Projects.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, token);
 
     /// <inheritdoc />
     public async Task<Project?> UpdateProjectAsync(Project project, CancellationToken token)

@@ -32,7 +32,6 @@ public sealed class ProjectController : ControllerBase {
     public async Task<ActionResult<Project>> GetProjectAsync(int id, CancellationToken token)
     {
         var project = await _projectRepository.GetProjectAsync(id, token);
-
         if (project is null) {
             return NotFound("Project not found.");
         }
@@ -44,7 +43,6 @@ public sealed class ProjectController : ControllerBase {
     public async Task<ActionResult<Project>> UpdateProjectAsync(Project project, CancellationToken token)
     {
         var targetProject = await _projectRepository.GetProjectAsync(project.Id, token);
-
         if (targetProject is null) {
             return NotFound("Project not found.");
         }
@@ -57,7 +55,6 @@ public sealed class ProjectController : ControllerBase {
     public async Task<ActionResult> DeleteProjectAsync(int id, CancellationToken token)
     {
         var targetProject = await _projectRepository.GetProjectAsync(id, token);
-
         if (targetProject is null) {
             return NotFound("Project not found.");
         }
