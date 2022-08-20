@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #00b3d9;
+  padding: 10px 20px;
+}
+
+.header__right-menu {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.btn {
+  color: #47394f;
+  font-weight: 500;
+  line-height: 1.4;
+  border: none;
+}
+
+.btn-create {
+  background-color: #75e5c1;
+}

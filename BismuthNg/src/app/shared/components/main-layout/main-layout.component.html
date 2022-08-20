@@ -1,0 +1,36 @@
+<div class="header">
+  <div class="header__left-menu">
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn" id="projectsDropdown" ngbDropdownToggle>
+        Projects
+      </button>
+      <div
+        class="dropdown-menu-dark"
+        ngbDropdownMenu
+        aria-labelledby="projectsDropdown"
+      >
+        <button type="button" *ngFor="let project of projects" ngbDropdownItem>
+          {{ project }}
+        </button>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-create">Create</button>
+  </div>
+
+  <div class="header__right-menu">
+    <input type="text" class="form-control" placeholder="Search" />
+
+    <div class="profile">
+      <div ngbDropdown class="d-inline-block">
+        <button type="button" class="btn" id="profile" ngbDropdownToggle>
+          {{ authUser }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="profile">
+          <button type="button" ngbDropdownItem>Settings</button>
+          <button type="button" ngbDropdownItem>Log out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
