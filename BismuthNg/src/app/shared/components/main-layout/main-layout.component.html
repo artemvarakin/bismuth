@@ -9,8 +9,12 @@
         ngbDropdownMenu
         aria-labelledby="projectsDropdown"
       >
-        <button type="button" *ngFor="let project of projects" ngbDropdownItem>
-          {{ project }}
+        <button
+          type="button"
+          *ngFor="let project of projects$ | async"
+          ngbDropdownItem
+        >
+          {{ project.name }}
         </button>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { Issue } from "../../interfaces";
+import { Project } from "../../interfaces";
+import { ProjectsService } from "../../services/projects.service";
 
 @Component({
   selector: "app-main-layout",
@@ -8,13 +9,13 @@ import { Issue } from "../../interfaces";
   styleUrls: ["./main-layout.component.scss"],
 })
 export class MainLayoutComponent implements OnInit {
-  public projects = ["Initial", "Another", "Main", "Test"];
+  projects$!: Observable<Project[]>;
 
-  project$!: Observable<Issue>;
+  authUser: string = "Bill Wurtz";
 
-  public authUser: string = "Bill Wurtz";
+  constructor(private projectsService: ProjectsService) {}
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.projects$ = this.projectsService.getAll();
+  }
 }

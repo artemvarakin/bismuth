@@ -14,7 +14,7 @@ public sealed class ProjectController : ControllerBase {
         _projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
     }
 
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<Project>>> GetProjectsAsync(CancellationToken token)
     {
         var projects = await _projectRepository.GetProjectsAsync(token);
