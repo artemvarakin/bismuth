@@ -9,6 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("BismuthDb")));
 
+    builder.Services.AddCors(options => {
+        options.AddDefaultPolicy(builder => {
+            builder
+                .WithOrigins("http://localhost:4200/")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    });
+
     builder.Services
         .AddTransient<IProjectRepository, ProjectRepository>()
         .AddTransient<IIssueRepository, IssueRepository>();
@@ -28,7 +37,14 @@ var app = builder.Build();
 
     app.UseExceptionHandler("/error");
 
-    app.UseHttpsRedirection();
+    //app.UseHttpsRedirection();
+
+    app.UseCors(builder => {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 
     app.UseAuthorization();
 

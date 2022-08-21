@@ -2,5 +2,5 @@ import { Environment } from "src/app/shared/interfaces";
 
 export const environment: Environment = {
   production: false,
-  bismuthApiUrl: "https://localhost:7207",
+  bismuthApiUrl: "http://localhost:5076",
 };
