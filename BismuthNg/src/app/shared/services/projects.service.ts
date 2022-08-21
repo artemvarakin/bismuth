@@ -12,6 +12,8 @@ export class ProjectsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Project[]> {
-    return this.http.get<Project[]>(`${environment.bismuthApiUrl}/project/all`);
+    return this.http.get<Project[]>(
+      `${environment.bismuthApiUrl}/api/project/all`
+    );
   }
 }
