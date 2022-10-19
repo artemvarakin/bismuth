@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcUserApi";
+
+package UserApi;
+
+service UserApi {
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc GetUserByEmail(GetUserByEmailRequest) returns (GetUserResponse);
+  rpc GetUserById(GetUserByIdRequest) returns (GetUserResponse);
+}
+
+message CreateUserRequest {
+  string FirstName = 1;
+  string LastName = 2;
+  string Email = 3;
+  string Password = 4;
+}
+
+message CreateUserResponse {
+  string Id = 1;
+  string FirstName = 2;
+  string LastName = 3;
+  string Email = 4;
+}
+
+message GetUserByEmailRequest {
+  string Email = 1;
+}
+
+message GetUserByIdRequest {
+  string Id = 1;
+}
+
+message GetUserResponse {
+  string Id = 1;
+  string FirstName = 2;
+  string LastName = 3;
+  string Email = 4;
+}
