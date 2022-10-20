@@ -1,5 +1,6 @@
 using Bismuth.Crypto;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using UserAPI.Extensions;
 using UserAPI.Grpc;
@@ -20,6 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
         .AddDataMappings()
         .AddRepositories()
         .AddServices();
+
+    builder.Services.AddMediatR(typeof(Program).Assembly);
 
     builder.Services.AddGrpc();
 }
