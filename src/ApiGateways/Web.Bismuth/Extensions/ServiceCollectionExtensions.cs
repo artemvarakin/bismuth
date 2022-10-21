@@ -3,10 +3,8 @@ using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.Options;
 using Serilog;
-using Web.Bismuth.Abstractions;
 using Web.Bismuth.Configurations;
 using Web.Bismuth.Infrastructure;
-using Web.Bismuth.Services;
 using static GrpcUserApi.UserApi;
 
 namespace Web.Bismuth.Extensions;
@@ -52,12 +50,6 @@ public static class ServiceCollectionExtensions
         }).AddInterceptor<GrpcExceptionInterceptor>();
 
         return services;
-    }
-
-    public static IServiceCollection AddServices(this IServiceCollection services)
-    {
-        return services
-            .AddTransient<IUserManager, UserManager>();
     }
 
     public static IServiceCollection AddDataMappings(this IServiceCollection services)

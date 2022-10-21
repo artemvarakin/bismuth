@@ -1,3 +1,4 @@
+using MediatR;
 using Web.Bismuth.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,9 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services
         .ConfigureOptions(builder.Configuration)
         .ConfigureLogging(builder.Configuration)
+        .AddMediatR(typeof(Program).Assembly)
         .AddDataMappings()
         .AddGrpcServices()
-        .AddServices()
         .AddControllers();
 
 
