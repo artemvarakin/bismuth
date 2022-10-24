@@ -1,5 +1,6 @@
-using MediatR;
 using Web.Bismuth.Extensions;
+using Web.Bismuth.Infrastructure;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -7,29 +8,23 @@ var builder = WebApplication.CreateBuilder(args);
         .ConfigureOptions(builder.Configuration)
         .ConfigureLogging(builder.Configuration)
         .AddMediatR(typeof(Program).Assembly)
+        .AddValidation()
         .AddDataMappings()
         .AddGrpcServices()
-        .AddControllers();
+        .AddSwagger();
 
-
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddControllers(options =>
+        options.Filters.Add(new ModelStateFilter()));
 }
 
 var app = builder.Build();
 {
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
-
-    app.UseExceptionHandler("/error");
-
-    app.UseHttpsRedirection();
-
-    app.UseAuthorization();
+    app
+        .UseSwagger()
+        .UseSwaggerUI()
+        .UseExceptionHandler("/error")
+        .UseHttpsRedirection()
+        .UseAuthorization();
 
     app.MapControllers();
 }

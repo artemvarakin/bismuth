@@ -36,8 +36,7 @@ internal class GrpcExceptionInterceptor : Interceptor
         {
             if (e.StatusCode != StatusCode.NotFound)
             {
-                _logger.LogError("Error calling via gRPC: {status} - {message}", e.Status, e.Message);
-                throw new InvalidOperationException("Error processing request.");
+                throw new InvalidOperationException("Error processing request.", e);
             }
 
             return default;

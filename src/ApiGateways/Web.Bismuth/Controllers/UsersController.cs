@@ -39,7 +39,7 @@ public class UsersController : ApiController
         return _mapper.Map<RegisterUserResponse>(result);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(RegisterUserResponse), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<GetUserResponse>> GetUserAsync(Guid id, CancellationToken token)

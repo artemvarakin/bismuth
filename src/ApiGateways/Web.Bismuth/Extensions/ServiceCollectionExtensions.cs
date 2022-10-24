@@ -1,7 +1,11 @@
 using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Web.Bismuth.Configurations;
 using Web.Bismuth.Infrastructure;
@@ -9,7 +13,7 @@ using static GrpcUserApi.UserApi;
 
 namespace Web.Bismuth.Extensions;
 
-public static class ServiceCollectionExtensions
+internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection ConfigureOptions(
         this IServiceCollection services,
@@ -39,6 +43,27 @@ public static class ServiceCollectionExtensions
         });
     }
 
+    public static IServiceCollection AddSwagger(this IServiceCollection services)
+    {
+        return services
+            .AddEndpointsApiExplorer()
+            .AddFluentValidationRulesToSwagger()
+            .AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Bismuth Web App",
+                    Version = "v1"
+                });
+            });
+    }
+
+    public static IServiceCollection AddValidation(this IServiceCollection services)
+    {
+        return services
+            .AddFluentValidationAutoValidation()
+            .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+    }
     public static IServiceCollection AddGrpcServices(this IServiceCollection services)
     {
         services.AddScoped<GrpcExceptionInterceptor>();
