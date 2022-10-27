@@ -10,16 +10,21 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
     private readonly UserApi.UserApiClient _userApiClient;
     private readonly IMapper _mapper;
 
-    public RegisterUserCommandHandler(UserApi.UserApiClient userApiClient, IMapper mapper)
+    public RegisterUserCommandHandler(
+        UserApi.UserApiClient userApiClient,
+        IMapper mapper)
     {
         _userApiClient = userApiClient;
         _mapper = mapper;
     }
 
-    public async Task<RegisterUserResult> Handle(RegisterUserCommand command, CancellationToken token)
+    public async Task<RegisterUserResult> Handle(
+        RegisterUserCommand command,
+        CancellationToken token)
     {
         var grpcRequest = _mapper.Map<CreateUserRequest>(command);
-        var response = await _userApiClient.CreateUserAsync(grpcRequest, cancellationToken: token);
+        var response = await _userApiClient
+            .CreateUserAsync(grpcRequest, cancellationToken: token);
 
         return _mapper.Map<RegisterUserResult>(response);
     }

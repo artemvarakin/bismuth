@@ -8,16 +8,16 @@ using UserAPI.Application.Queries;
 
 namespace UserAPI.Grpc;
 
-public class UserManager : UserApi.UserApiBase
+public class UserManagerService : UserApi.UserApiBase
 {
     private readonly IMediator _mediator;
-    private readonly ILogger<UserManager> _logger;
+    private readonly ILogger<UserManagerService> _logger;
     private readonly IPasswordHashService _passwordHashService;
     private readonly IMapper _mapper;
 
-    public UserManager(
+    public UserManagerService(
         IMediator mediator,
-        ILogger<UserManager> logger,
+        ILogger<UserManagerService> logger,
         IPasswordHashService passwordHashService,
         IMapper mapper)
     {

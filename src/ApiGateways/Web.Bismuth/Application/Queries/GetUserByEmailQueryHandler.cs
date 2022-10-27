@@ -10,16 +10,21 @@ public class GetUserByEmailQueryHandler : IRequestHandler<GetUserByEmailQuery, G
     private readonly UserApi.UserApiClient _userApiClient;
     private readonly IMapper _mapper;
 
-    public GetUserByEmailQueryHandler(UserApi.UserApiClient userApiClient, IMapper mapper)
+    public GetUserByEmailQueryHandler(
+        UserApi.UserApiClient userApiClient,
+        IMapper mapper)
     {
         _userApiClient = userApiClient;
         _mapper = mapper;
     }
 
-    public async Task<GetUserResult?> Handle(GetUserByEmailQuery query, CancellationToken token)
+    public async Task<GetUserResult?> Handle(
+        GetUserByEmailQuery query,
+        CancellationToken token)
     {
         var grpcRequest = new GetUserByEmailRequest { Email = query.Email };
-        var response = await _userApiClient.GetUserByEmailAsync(grpcRequest, cancellationToken: token);
+        var response = await _userApiClient
+            .GetUserByEmailAsync(grpcRequest, cancellationToken: token);
 
         return response is null ? null : _mapper.Map<GetUserResult>(response);
     }
