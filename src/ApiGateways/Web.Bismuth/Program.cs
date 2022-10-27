@@ -1,6 +1,6 @@
 using Web.Bismuth.Extensions;
-using Web.Bismuth.Infrastructure;
 using MediatR;
+using Bismuth.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -8,13 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
         .ConfigureOptions(builder.Configuration)
         .ConfigureLogging(builder.Configuration)
         .AddMediatR(typeof(Program).Assembly)
-        .AddValidation()
+        .AddFluentValidation()
         .AddDataMappings()
         .AddGrpcServices()
         .AddSwagger();
 
-    builder.Services.AddControllers(options =>
-        options.Filters.Add(new ModelStateFilter()));
+    builder.Services.AddControllers();
 }
 
 var app = builder.Build();

@@ -1,8 +1,6 @@
 using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Mapster;
-using MapsterMapper;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -21,7 +19,9 @@ internal static class ServiceCollectionExtensions
     {
         services.AddOptions<UrlsConfiguration>()
             .Bind(configuration.GetSection(UrlsConfiguration.SectionName))
-            .Validate(o => !string.IsNullOrWhiteSpace(o.GrpcUserApi), "User API gRPC server URL was not specified.")
+            .Validate(
+                o => !string.IsNullOrWhiteSpace(o.GrpcUserApi),
+                "User API gRPC server URL was not specified.")
             .ValidateOnStart();
 
         return services;
@@ -58,32 +58,24 @@ internal static class ServiceCollectionExtensions
             });
     }
 
-    public static IServiceCollection AddValidation(this IServiceCollection services)
+    public static IServiceCollection AddFluentValidation(this IServiceCollection services)
     {
         return services
             .AddFluentValidationAutoValidation()
             .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     }
+
     public static IServiceCollection AddGrpcServices(this IServiceCollection services)
     {
         services.AddScoped<GrpcExceptionInterceptor>();
 
         services.AddGrpcClient<UserApiClient>((services, options) =>
         {
-            var userApiUrl = services.GetRequiredService<IOptions<UrlsConfiguration>>().Value.GrpcUserApi;
+            var userApiUrl = services.GetRequiredService<IOptions<UrlsConfiguration>>()
+                .Value.GrpcUserApi;
             options.Address = new Uri(userApiUrl);
         }).AddInterceptor<GrpcExceptionInterceptor>();
 
         return services;
-    }
-
-    public static IServiceCollection AddDataMappings(this IServiceCollection services)
-    {
-        var config = TypeAdapterConfig.GlobalSettings;
-        config.Scan(Assembly.GetExecutingAssembly());
-
-        return services
-            .AddSingleton(config)
-            .AddScoped<IMapper, ServiceMapper>();
     }
 }
