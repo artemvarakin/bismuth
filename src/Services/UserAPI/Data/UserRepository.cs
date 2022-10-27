@@ -20,17 +20,24 @@ public class UserRepository : IUserRepository
     }
 
     public async Task AddUserAsync(User user, CancellationToken token)
-        => await GetUsersCollection().InsertOneAsync(user, null, token);
+        => await GetUsersCollection()
+            .InsertOneAsync(user, null, token);
 
     public async Task<User?> GetUserByIdAsync(Guid id, CancellationToken token)
-        => await GetUsersCollection().Find(u => u.Id == id).FirstOrDefaultAsync(token);
+        => await GetUsersCollection()
+            .Find(u => u.Id == id).FirstOrDefaultAsync(token);
 
     public async Task<User?> GetUserByEmailAsync(string email, CancellationToken token)
-        => await GetUsersCollection().Find(u => u.Email == email).FirstOrDefaultAsync(token);
+        => await GetUsersCollection()
+            .Find(u => u.Email == email).FirstOrDefaultAsync(token);
 
     private IMongoCollection<User> GetUsersCollection()
     {
         var db = _client.GetDatabase(_configuration.DatabaseName);
         return db.GetCollection<User>(_configuration.UsersCollectionName);
     }
+
+    public async Task<bool> IsUserExists(string email, CancellationToken token)
+        => await GetUsersCollection()
+            .Find(u => u.Email == email).CountDocumentsAsync(token) > 0;
 }

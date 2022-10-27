@@ -1,0 +1,10 @@
+using MediatR;
+using Web.Bismuth.Application.Common;
+
+namespace Web.Bismuth.Application.Commands;
+
+public record RegisterUserCommand(
+    string FirstName,
+    string LastName,
+    string Email,
+    string Password) : IRequest<RegisterUserResult>;

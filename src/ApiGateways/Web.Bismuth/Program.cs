@@ -1,34 +1,29 @@
 using Web.Bismuth.Extensions;
+using MediatR;
+using Bismuth.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
         .ConfigureOptions(builder.Configuration)
         .ConfigureLogging(builder.Configuration)
+        .AddMediatR(typeof(Program).Assembly)
+        .AddFluentValidation()
         .AddDataMappings()
         .AddGrpcServices()
-        .AddServices()
-        .AddControllers();
+        .AddSwagger();
 
-
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddControllers();
 }
 
 var app = builder.Build();
 {
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
-
-    app.UseExceptionHandler("/error");
-
-    app.UseHttpsRedirection();
-
-    app.UseAuthorization();
+    app
+        .UseSwagger()
+        .UseSwaggerUI()
+        .UseExceptionHandler("/error")
+        .UseHttpsRedirection()
+        .UseAuthorization();
 
     app.MapControllers();
 }

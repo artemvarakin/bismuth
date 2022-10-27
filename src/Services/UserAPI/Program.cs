@@ -1,5 +1,6 @@
+using Bismuth.Core;
 using Bismuth.Crypto;
-using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using UserAPI.Extensions;
 using UserAPI.Grpc;
@@ -11,21 +12,22 @@ var builder = WebApplication.CreateBuilder(args);
         options.ListenLocalhost(5129, o => o.Protocols = HttpProtocols.Http2));
 
     builder.Services
-        .AddValidatorsFromAssemblyContaining<Program>()
         .AddOptionsConfiguration(builder.Configuration)
         .ConfigureLogging(builder.Configuration)
         .AddMongoDbClient(builder.Configuration)
-        .AddExceptionInterceptor()
+        .AddMediatR(typeof(Program).Assembly)
+        .AddGrpcExceptionInterceptor()
+        .AddGrpcFluentValidation()
+        .AddDataMappings()
         .AddBismuthCrypto()
         .AddDataMappings()
-        .AddRepositories()
-        .AddServices();
+        .AddRepositories();
 
     builder.Services.AddGrpc();
 }
 
 var app = builder.Build();
 
-app.MapGrpcService<UserManager>();
+app.MapGrpcService<UserManagerService>();
 
 app.Run();
