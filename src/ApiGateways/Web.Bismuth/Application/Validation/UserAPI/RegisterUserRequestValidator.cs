@@ -1,7 +1,7 @@
 using Bismuth.Contracts.v1.User;
 using FluentValidation;
 
-namespace Web.Bismuth.Application.Validations.UserAPI;
+namespace Web.Bismuth.Application.Validation.UserAPI;
 
 public class RegisterUserRequestValidator : AbstractValidator<RegisterUserRequest>
 {

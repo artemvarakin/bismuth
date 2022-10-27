@@ -21,10 +21,16 @@ public class ExceptionInterceptor : Interceptor
         {
             return await continuation(request, context);
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not RpcException ex
+            || ex.StatusCode != StatusCode.InvalidArgument)
         {
-            _logger.LogError(e, "An error occurred when calling {method}", context.Method);
-            throw new RpcException(new Status(StatusCode.Cancelled, e.Message));
+            _logger.LogError(
+                e,
+                "An error occurred when calling {method}: {message}",
+                context.Method,
+                e.Message);
+
+            throw;
         }
     }
 }

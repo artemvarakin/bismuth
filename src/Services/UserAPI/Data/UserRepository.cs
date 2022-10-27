@@ -33,4 +33,8 @@ public class UserRepository : IUserRepository
         var db = _client.GetDatabase(_configuration.DatabaseName);
         return db.GetCollection<User>(_configuration.UsersCollectionName);
     }
+
+    public async Task<bool> IsUserExists(string email, CancellationToken token)
+        => await GetUsersCollection()
+            .Find(u => u.Email == email).CountDocumentsAsync(token) > 0;
 }

@@ -1,3 +1,6 @@
+using Calzolari.Grpc.Net.Client.Validation;
+using FluentValidation;
+using FluentValidation.Results;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 
@@ -5,13 +8,6 @@ namespace Web.Bismuth.Infrastructure;
 
 internal class GrpcExceptionInterceptor : Interceptor
 {
-    private readonly ILogger<GrpcExceptionInterceptor> _logger;
-
-    public GrpcExceptionInterceptor(ILogger<GrpcExceptionInterceptor> logger)
-    {
-        _logger = logger;
-    }
-
     public override AsyncUnaryCall<TResponse> AsyncUnaryCall<TRequest, TResponse>(
         TRequest request,
         ClientInterceptorContext<TRequest, TResponse> context,
@@ -34,12 +30,19 @@ internal class GrpcExceptionInterceptor : Interceptor
         }
         catch (RpcException e)
         {
-            if (e.StatusCode != StatusCode.NotFound)
+            switch (e.StatusCode)
             {
-                throw new InvalidOperationException("Error processing request.", e);
-            }
+                case StatusCode.NotFound:
+                    return default;
 
-            return default;
+                case StatusCode.InvalidArgument:
+                    var failures = e.GetValidationErrors().Select(err =>
+                        new ValidationFailure(err.PropertyName, err.ErrorMessage));
+                    throw new ValidationException(failures);
+
+                default:
+                    throw new InvalidOperationException("Error processing request.", e);
+            }
         }
     }
 }
