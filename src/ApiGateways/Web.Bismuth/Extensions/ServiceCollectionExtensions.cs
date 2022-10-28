@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Web.Bismuth.Configurations;
 using Web.Bismuth.Infrastructure;
+using static GrpcAuthApi.AuthApi;
 using static GrpcUserApi.UserApi;
 
 namespace Web.Bismuth.Extensions;
@@ -20,7 +21,11 @@ internal static class ServiceCollectionExtensions
         services.AddOptions<UrlsConfiguration>()
             .Bind(configuration.GetSection(UrlsConfiguration.SectionName))
             .Validate(
-                o => !string.IsNullOrWhiteSpace(o.GrpcUserApi),
+                o => !string.IsNullOrWhiteSpace(o.AuthAPI),
+                "Auth API gRPC server URL was not specified."
+            )
+            .Validate(
+                o => !string.IsNullOrWhiteSpace(o.UserAPI),
                 "User API gRPC server URL was not specified.")
             .ValidateOnStart();
 
@@ -72,8 +77,15 @@ internal static class ServiceCollectionExtensions
         services.AddGrpcClient<UserApiClient>((services, options) =>
         {
             var userApiUrl = services.GetRequiredService<IOptions<UrlsConfiguration>>()
-                .Value.GrpcUserApi;
+                .Value.UserAPI;
             options.Address = new Uri(userApiUrl);
+        }).AddInterceptor<GrpcExceptionInterceptor>();
+
+        services.AddGrpcClient<AuthApiClient>((services, options) =>
+        {
+            var authApiUrl = services.GetRequiredService<IOptions<UrlsConfiguration>>()
+                .Value.AuthAPI;
+            options.Address = new Uri(authApiUrl);
         }).AddInterceptor<GrpcExceptionInterceptor>();
 
         return services;

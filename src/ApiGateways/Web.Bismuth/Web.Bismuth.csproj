@@ -28,6 +28,9 @@
   <ItemGroup>
     <Protobuf Include="../../Services/UserAPI/Protos/user_api.proto" GrpcServices="Client" />
   </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="../../Services/AuthAPI/Protos/auth_api.proto" GrpcServices="Client" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Bismuth.Contracts\Bismuth.Contracts.csproj" />
