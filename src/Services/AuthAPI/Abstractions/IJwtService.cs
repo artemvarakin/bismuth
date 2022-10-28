@@ -1,6 +1,6 @@
 using Bismuth.Domain.Entities;
 
-namespace SessionAPI.Abstractions;
+namespace AuthAPI.Abstractions;
 
 public interface IJwtService
 {

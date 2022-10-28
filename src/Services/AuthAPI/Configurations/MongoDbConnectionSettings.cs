@@ -1,4 +1,4 @@
-namespace SessionAPI.Configurations;
+namespace AuthAPI.Configurations;
 
 public sealed class MongoDbConnectionSettings
 {

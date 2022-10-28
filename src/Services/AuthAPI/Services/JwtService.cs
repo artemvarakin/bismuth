@@ -1,7 +1,7 @@
 using Bismuth.Domain.Entities;
-using SessionAPI.Abstractions;
+using AuthAPI.Abstractions;
 
-namespace SessionAPI.Services;
+namespace AuthAPI.Services;
 
 public class JwtService : IJwtService
 {

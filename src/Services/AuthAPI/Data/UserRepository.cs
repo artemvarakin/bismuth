@@ -1,10 +1,10 @@
 using Bismuth.Domain.Entities;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using SessionAPI.Abstractions;
-using SessionAPI.Configurations;
+using AuthAPI.Abstractions;
+using AuthAPI.Configurations;
 
-namespace SessionAPI.Data;
+namespace AuthAPI.Data;
 
 public class UserRepository : IUserRepository
 {

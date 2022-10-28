@@ -1,7 +1,7 @@
 using Bismuth.Domain.Entities;
 using MediatR;
 
-namespace SessionAPI.Application.Commands;
+namespace AuthAPI.Application.Commands;
 
 public record SignInCommand(
     string Email,

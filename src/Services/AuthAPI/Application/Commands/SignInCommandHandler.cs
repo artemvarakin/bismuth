@@ -1,9 +1,9 @@
 using Bismuth.Crypto.Abstractions;
 using Bismuth.Domain.Entities;
 using MediatR;
-using SessionAPI.Abstractions;
+using AuthAPI.Abstractions;
 
-namespace SessionAPI.Application.Commands;
+namespace AuthAPI.Application.Commands;
 
 public class SignInCommandHandler : IRequestHandler<SignInCommand, User?>
 {

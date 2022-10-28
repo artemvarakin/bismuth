@@ -1,7 +1,7 @@
-using GrpcSessionApi;
+using GrpcAuthApi;
 using Mapster;
 
-namespace SessionAPI.Data.Mappings;
+namespace AuthAPI.Data.Mappings;
 
 public class SignInResponseMappingConfig : IRegister
 {

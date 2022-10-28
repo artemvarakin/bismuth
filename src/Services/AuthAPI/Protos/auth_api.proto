@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-option csharp_namespace = "GrpcSessionApi";
+option csharp_namespace = "GrpcAuthApi";
 
-package SessionApi;
+package AuthApi;
 
-service SessionApi {
+service AuthApi {
     rpc SignIn(SignInRequest) returns (SignInResponse);
     rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
 }

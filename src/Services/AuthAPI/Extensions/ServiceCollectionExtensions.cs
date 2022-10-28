@@ -1,9 +1,9 @@
-using SessionAPI.Abstractions;
-using SessionAPI.Configurations;
-using SessionAPI.Data;
-using SessionAPI.Services;
+using AuthAPI.Abstractions;
+using AuthAPI.Configurations;
+using AuthAPI.Data;
+using AuthAPI.Services;
 
-namespace SessionAPI.Extensions;
+namespace AuthAPI.Extensions;
 
 internal static class ServiceCollectionExtensions
 {

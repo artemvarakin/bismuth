@@ -1,8 +1,8 @@
 using Bismuth.Core;
 using MediatR;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using SessionAPI.Extensions;
-using SessionAPI.Grpc;
+using AuthAPI.Extensions;
+using AuthAPI.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 {

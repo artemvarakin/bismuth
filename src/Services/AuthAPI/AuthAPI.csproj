@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\session_api.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\auth_api.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,13 +1,13 @@
 using Grpc.Core;
-using GrpcSessionApi;
+using GrpcAuthApi;
 using MapsterMapper;
 using MediatR;
-using SessionAPI.Abstractions;
-using SessionAPI.Application.Commands;
+using AuthAPI.Abstractions;
+using AuthAPI.Application.Commands;
 
-namespace SessionAPI.Grpc;
+namespace AuthAPI.Grpc;
 
-public class SessionService : SessionApi.SessionApiBase
+public class SessionService : AuthApi.AuthApiBase
 {
     private readonly IMediator _mediator;
     private readonly IJwtService _jwtService;
