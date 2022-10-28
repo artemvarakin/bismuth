@@ -2,6 +2,7 @@ using AuthAPI.Abstractions;
 using AuthAPI.Configurations;
 using AuthAPI.Data;
 using AuthAPI.Services;
+using MongoDB.Driver;
 
 namespace AuthAPI.Extensions;
 
@@ -22,6 +23,14 @@ internal static class ServiceCollectionExtensions
             .ValidateOnStart();
 
         return services;
+    }
+
+    public static IServiceCollection AddMongoDbClient(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        return services.AddScoped<IMongoClient>(_ =>
+            new MongoClient(configuration.GetConnectionString("MongoDbServer")));
     }
 
     public static IServiceCollection AddServices(this IServiceCollection services)

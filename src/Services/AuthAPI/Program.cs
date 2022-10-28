@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using AuthAPI.Extensions;
 using AuthAPI.Grpc;
+using Bismuth.Crypto;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -12,8 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services
         .AddOptionsConfiguration(builder.Configuration)
+        .AddMongoDbClient(builder.Configuration)
         .AddMediatR(typeof(Program).Assembly)
         .AddDataMappings()
+        .AddBismuthCrypto()
         .AddServices()
         .AddRepositories();
 
