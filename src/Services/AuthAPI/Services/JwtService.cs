@@ -7,6 +7,6 @@ public class JwtService : IJwtService
 {
     public async Task<(string idToken, string refreshToken)> CreateNewTokenPairAsync(User user, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return ("new id token", "new refresh token");
     }
 }
