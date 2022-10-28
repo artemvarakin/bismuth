@@ -7,13 +7,13 @@ using AuthAPI.Application.Commands;
 
 namespace AuthAPI.Grpc;
 
-public class SessionService : AuthApi.AuthApiBase
+public class AuthService : AuthApi.AuthApiBase
 {
     private readonly IMediator _mediator;
     private readonly IJwtService _jwtService;
     private readonly IMapper _mapper;
 
-    public SessionService(
+    public AuthService(
         IMediator mediator,
         IJwtService jwtService,
         IMapper mapper)
