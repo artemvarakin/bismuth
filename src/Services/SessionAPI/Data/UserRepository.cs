@@ -1,12 +1,30 @@
 using Bismuth.Domain.Entities;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using SessionAPI.Abstractions;
+using SessionAPI.Configurations;
 
 namespace SessionAPI.Data;
 
 public class UserRepository : IUserRepository
 {
-    public async Task<User?> GetUserByEmailAsync(string email, CancellationToken token)
+    private readonly IMongoClient _client;
+    private readonly MongoDbConnectionSettings _configuration;
+
+    public UserRepository(
+        IMongoClient client,
+        IOptions<MongoDbConnectionSettings> options)
     {
-        throw new NotImplementedException();
+        _client = client;
+        _configuration = options.Value;
+    }
+
+    public async Task<User?> GetUserByEmailAsync(string email, CancellationToken token)
+        => await GetUsersCollection().Find(u => u.Email == email).FirstOrDefaultAsync(token);
+
+    private IMongoCollection<User> GetUsersCollection()
+    {
+        var db = _client.GetDatabase(_configuration.DatabaseName);
+        return db.GetCollection<User>(_configuration.UsersCollectionName);
     }
 }

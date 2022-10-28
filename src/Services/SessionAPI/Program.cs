@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
         options.ListenLocalhost(5129, o => o.Protocols = HttpProtocols.Http2));
 
     builder.Services
+        .AddOptionsConfiguration(builder.Configuration)
         .AddMediatR(typeof(Program).Assembly)
         .AddDataMappings()
         .AddServices()
