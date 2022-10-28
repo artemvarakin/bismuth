@@ -1,17 +1,19 @@
 using GrpcUserApi;
 using MapsterMapper;
 using MediatR;
-using Web.Bismuth.Application.Common;
+using Web.Bismuth.Application.Common.User;
+using static GrpcUserApi.UserApi;
 
-namespace Web.Bismuth.Application.Commands;
+namespace Web.Bismuth.Application.Commands.User;
 
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, RegisterUserResult>
+public class RegisterUserCommandHandler
+    : IRequestHandler<RegisterUserCommand, RegisterUserResult>
 {
-    private readonly UserApi.UserApiClient _userApiClient;
+    private readonly UserApiClient _userApiClient;
     private readonly IMapper _mapper;
 
     public RegisterUserCommandHandler(
-        UserApi.UserApiClient userApiClient,
+        UserApiClient userApiClient,
         IMapper mapper)
     {
         _userApiClient = userApiClient;

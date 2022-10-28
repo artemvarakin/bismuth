@@ -1,7 +1,7 @@
 using MediatR;
-using Web.Bismuth.Application.Common;
+using Web.Bismuth.Application.Common.User;
 
-namespace Web.Bismuth.Application.Commands;
+namespace Web.Bismuth.Application.Commands.User;
 
 public record RegisterUserCommand(
     string FirstName,

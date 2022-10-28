@@ -3,9 +3,9 @@ using Bismuth.Contracts.v1.User;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Web.Bismuth.Application.Commands;
-using Web.Bismuth.Application.Common;
-using Web.Bismuth.Application.Queries;
+using Web.Bismuth.Application.Commands.User;
+using Web.Bismuth.Application.Common.User;
+using Web.Bismuth.Application.Queries.User;
 
 namespace Web.Bismuth.Controllers;
 

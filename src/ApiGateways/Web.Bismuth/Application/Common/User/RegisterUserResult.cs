@@ -1,4 +1,4 @@
-namespace Web.Bismuth.Application.Common;
+namespace Web.Bismuth.Application.Common.User;
 
 public record RegisterUserResult(
     Guid Id,
