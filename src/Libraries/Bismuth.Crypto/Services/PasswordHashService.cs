@@ -1,6 +1,5 @@
 using System.Security.Cryptography;
 using Bismuth.Crypto.Abstractions;
-using Bismuth.Domain.Entities;
 
 namespace Bismuth.Crypto.Services;
 
@@ -16,10 +15,10 @@ public sealed class PasswordHashService : IPasswordHashService
     }
 
     /// <inheritdoc />
-    public bool IsPasswordValid(User user, string password)
+    public bool IsPasswordValid(string passwordHash, string password)
     {
         var hash = ComputeHash(password);
-        return user.PasswordHash.SequenceEqual(GetString(hash));
+        return passwordHash.SequenceEqual(GetString(hash));
     }
 
     private static byte[] ComputeHash(string password)

@@ -38,7 +38,9 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, User?>
             return null;
         }
 
-        if (!_passwordHashService.IsPasswordValid(user, command.Password))
+        if (!_passwordHashService.IsPasswordValid(
+            user.PasswordHash,
+            command.Password))
         {
             _logger.LogInformation(
                 "Sign in attempt with email '{email}' and invalid password.",
