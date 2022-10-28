@@ -32,14 +32,18 @@ internal class GrpcExceptionInterceptor : Interceptor
         {
             switch (e.StatusCode)
             {
+                // resource not found or access denied
                 case StatusCode.NotFound:
+                case StatusCode.PermissionDenied:
                     return default;
 
+                // validation errors
                 case StatusCode.InvalidArgument:
                     var failures = e.GetValidationErrors().Select(err =>
                         new ValidationFailure(err.PropertyName, err.ErrorMessage));
                     throw new ValidationException(failures);
 
+                // internal errors
                 default:
                     throw new InvalidOperationException("Error processing request.", e);
             }

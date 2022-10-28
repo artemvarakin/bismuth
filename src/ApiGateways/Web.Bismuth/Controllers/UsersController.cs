@@ -23,7 +23,7 @@ public class UsersController : ApiController
     [HttpPost("register")]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     [ProducesResponseType(typeof(RegisterUserResponse), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<RegisterUserResponse>> RegisterUserAsync(
+    public async Task<IActionResult> RegisterUserAsync(
         RegisterUserRequest request,
         CancellationToken token)
     {
@@ -36,13 +36,13 @@ public class UsersController : ApiController
         var command = _mapper.Map<RegisterUserCommand>(request);
         var result = await _mediator.Send(command, token);
 
-        return _mapper.Map<RegisterUserResponse>(result);
+        return Ok(_mapper.Map<RegisterUserResponse>(result));
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(RegisterUserResponse), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<GetUserResponse>> GetUserAsync(Guid id, CancellationToken token)
+    public async Task<IActionResult> GetUserAsync(Guid id, CancellationToken token)
     {
         var query = new GetUserByIdQuery(id);
         if (await _mediator.Send(query, token) is not GetUserResult result)
@@ -50,6 +50,6 @@ public class UsersController : ApiController
             return NotFound("User not found.");
         }
 
-        return _mapper.Map<GetUserResponse>(result);
+        return Ok(_mapper.Map<GetUserResponse>(result));
     }
 }
