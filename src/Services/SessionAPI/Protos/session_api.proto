@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcSessionApi";
+
+package SessionApi;
+
+import "google/protobuf/timestamp.proto";
+
+service SessionApi {
+    rpc SignIn(SignInRequest) returns (SignInResponse);
+    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+}
+
+message SignInRequest {
+    string Email = 1;
+    string Password = 2;
+}
+
+message SignInResponse {
+    string IdToken = 1;
+    string RefreshToken = 2;
+}
+
+message RefreshTokenRequest {
+    string RefreshToken = 1;
+}
+
+message RefreshTokenResponse {
+    string IdToken = 1;
+    string RefreshToken = 2;
+}
