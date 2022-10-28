@@ -13,10 +13,10 @@ public class UserRepository : IUserRepository
 
     public UserRepository(
         IMongoClient client,
-        IOptions<MongoDbConnectionSettings> configuration)
+        IOptions<MongoDbConnectionSettings> options)
     {
         _client = client;
-        _configuration = configuration.Value;
+        _configuration = options.Value;
     }
 
     public async Task AddUserAsync(User user, CancellationToken token)
@@ -31,13 +31,13 @@ public class UserRepository : IUserRepository
         => await GetUsersCollection()
             .Find(u => u.Email == email).FirstOrDefaultAsync(token);
 
+    public async Task<bool> IsUserExists(string email, CancellationToken token)
+        => await GetUsersCollection()
+            .Find(u => u.Email == email).CountDocumentsAsync(token) > 0;
+
     private IMongoCollection<User> GetUsersCollection()
     {
         var db = _client.GetDatabase(_configuration.DatabaseName);
         return db.GetCollection<User>(_configuration.UsersCollectionName);
     }
-
-    public async Task<bool> IsUserExists(string email, CancellationToken token)
-        => await GetUsersCollection()
-            .Find(u => u.Email == email).CountDocumentsAsync(token) > 0;
 }
