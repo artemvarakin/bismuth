@@ -1,8 +1,8 @@
 using Bismuth.Domain.Entities;
 using MediatR;
 
-namespace AuthAPI.Application.Commands;
+namespace AuthAPI.Application.Queries;
 
-public record SignInCommand(
+public record AuthenticateQuery(
     string Email,
     string Password) : IRequest<User>;

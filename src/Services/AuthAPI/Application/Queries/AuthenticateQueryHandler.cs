@@ -3,16 +3,16 @@ using Bismuth.Domain.Entities;
 using MediatR;
 using AuthAPI.Abstractions;
 
-namespace AuthAPI.Application.Commands;
+namespace AuthAPI.Application.Queries;
 
-public class SignInCommandHandler : IRequestHandler<SignInCommand, User?>
+public class AuthenticateQueryHandler : IRequestHandler<AuthenticateQuery, User?>
 {
-    private readonly ILogger<SignInCommandHandler> _logger;
+    private readonly ILogger<AuthenticateQueryHandler> _logger;
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHashService _passwordHashService;
 
-    public SignInCommandHandler(
-        ILogger<SignInCommandHandler> logger,
+    public AuthenticateQueryHandler(
+        ILogger<AuthenticateQueryHandler> logger,
         IUserRepository userRepository,
         IPasswordHashService passwordHashService)
     {
@@ -22,7 +22,7 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, User?>
     }
 
     public async Task<User?> Handle(
-        SignInCommand command,
+        AuthenticateQuery command,
         CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetUserByEmailAsync(

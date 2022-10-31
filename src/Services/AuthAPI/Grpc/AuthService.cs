@@ -2,7 +2,7 @@ using Grpc.Core;
 using GrpcAuthApi;
 using MapsterMapper;
 using MediatR;
-using AuthAPI.Abstractions;
+using AuthAPI.Application.Queries;
 using AuthAPI.Application.Commands;
 
 namespace AuthAPI.Grpc;
@@ -10,16 +10,13 @@ namespace AuthAPI.Grpc;
 public class AuthService : AuthApi.AuthApiBase
 {
     private readonly IMediator _mediator;
-    private readonly IJwtService _jwtService;
     private readonly IMapper _mapper;
 
     public AuthService(
         IMediator mediator,
-        IJwtService jwtService,
         IMapper mapper)
     {
         _mediator = mediator;
-        _jwtService = jwtService;
         _mapper = mapper;
     }
 
@@ -27,17 +24,24 @@ public class AuthService : AuthApi.AuthApiBase
         SignInRequest request,
         ServerCallContext context)
     {
-        var command = _mapper.Map<SignInCommand>(request);
-        var user = await _mediator.Send(command, context.CancellationToken);
+        var authQuery = _mapper.Map<AuthenticateQuery>(request);
+        var user = await _mediator.Send(authQuery, context.CancellationToken);
 
         if (user is null)
         {
-            context.Status = new Status(StatusCode.PermissionDenied, "Invalid email or password.");
+            context.Status = new Status(
+                StatusCode.PermissionDenied,
+                "Invalid email or password.");
+
             return new SignInResponse();
         }
 
-        var (idToken, refreshToken) = await _jwtService.CreateNewTokenPairAsync(
-            user,
+        var newIdTokenQuery = new NewIdTokenQuery(user);
+        var idToken = await _mediator.Send(newIdTokenQuery);
+
+        var newRefreshToken = new CreateRefreshTokenCommand(user);
+        var refreshToken = await _mediator.Send(
+            newRefreshToken,
             context.CancellationToken);
 
         return _mapper.Map<SignInResponse>((idToken, refreshToken));
