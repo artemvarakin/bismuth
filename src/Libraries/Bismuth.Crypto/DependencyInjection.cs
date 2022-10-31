@@ -9,6 +9,7 @@ public static class DependencyInjection
     public static IServiceCollection AddBismuthCrypto(this IServiceCollection services)
     {
         return services
-            .AddScoped<IPasswordHashService, PasswordHashService>();
+            .AddScoped<IPasswordHashService, PasswordHashService>()
+            .AddScoped<IJwtService, JwtService>();
     }
 }

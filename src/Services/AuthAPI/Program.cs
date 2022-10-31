@@ -17,7 +17,6 @@ var builder = WebApplication.CreateBuilder(args);
         .AddMediatR(typeof(Program).Assembly)
         .AddDataMappings()
         .AddBismuthCrypto()
-        .AddServices()
         .AddRepositories();
 
     builder.Services.AddGrpc();
